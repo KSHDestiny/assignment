@@ -7,45 +7,34 @@
 Debug Output:
 <?php
 $goodtext = "Not found";
-// If there is no parameter, this code is all skipped
 if ( isset($_GET['md5']) ) {
     $time_pre = microtime(true);
     $md5 = $_GET['md5'];
 
-    // This is our alphabet
     $txt = "0123456789";
     $show = 15;
 
-    // Outer loop to go through the alphabet for the
-    // first position in our "possible" pre-hash
-    // text
     for($i=0; $i<strlen($txt); $i++ ) {
-        $ch1 = $txt[$i];   // The first of two characters
+        $ch1 = $txt[$i];
 
-        // Our inner loop Not the use of new variables
-        // $j and $ch2 
         for($j=0; $j<strlen($txt); $j++ ) {
-            $ch2 = $txt[$j];  // Our second character
+            $ch2 = $txt[$j];
 
             for($k=0; $k<strlen($txt); $k++ ) {
-                $ch3 = $txt[$k];  // Our third character
+                $ch3 = $txt[$k];
 
                 for($l=0; $l<strlen($txt); $l++ ) {
-                    $ch4 = $txt[$l];  // Our fourth character
+                    $ch4 = $txt[$l];
 
-                // Concatenate the four characters together to 
-                // form the "possible" pre-hash text
                 $try = $ch1.$ch2.$ch3.$ch4;
                  
-                // Run the hash and then check to see if we match
                 $check = hash('md5', $try);
 
                 if ( $check == $md5 ) {
                     $goodtext = $try;
-                    break;   // Exit the inner loop
+                    break;
                 }
 
-                // Debug output until $show hits 0
                 if ( $show > 0 ) {
                     print "$check $try\n";
                     $show = $show - 1;
@@ -54,7 +43,6 @@ if ( isset($_GET['md5']) ) {
             }
         }
     }
-    // Compute elapsed time
     $time_post = microtime(true);
     print "Elapsed time: ";
     print $time_post-$time_pre;
@@ -62,7 +50,6 @@ if ( isset($_GET['md5']) ) {
 }
 ?>
 </pre>
-<!-- Use the very short syntax and call htmlentities() -->
 <p>PIN : <?= htmlentities($goodtext); ?></p>
 <form method="Get">
 <input type="text" name="md5" size="40" />
